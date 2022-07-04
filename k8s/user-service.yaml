@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: thesleepydev/microservices-example-user-service:latest
+          image: <docker_account>/microservices-example-user-service:latest
           env:
             - name: PORT
               value: '3000'

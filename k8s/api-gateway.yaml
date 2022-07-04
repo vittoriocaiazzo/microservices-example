@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: thesleepydev/microservices-example-api-gateway:latest
+          image: <docker_account>/microservices-example-api-gateway:latest
           env:
             - name: PORT
               value: '3000'

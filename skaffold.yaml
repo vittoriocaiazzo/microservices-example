@@ -6,7 +6,7 @@ build:
   local:
     push: false
   artifacts:
-    - image: thesleepydev/microservices-example-api-gateway
+    - image: <docker_account>/microservices-example-api-gateway
       context: api-gateway
       docker:
         dockerfile: Dockerfile
@@ -14,7 +14,7 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: thesleepydev/microservices-example-authentication-service
+    - image: <docker_account>/microservices-example-authentication-service
       context: authentication-service
       docker:
         dockerfile: Dockerfile
@@ -22,7 +22,7 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: thesleepydev/microservices-example-user-service
+    - image: <docker_account>/microservices-example-user-service
       context: user-service
       docker:
         dockerfile: Dockerfile
@@ -30,7 +30,7 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: thesleepydev/microservices-example-email-service
+    - image: <docker_account>/microservices-example-email-service
       context: email-service
       docker:
         dockerfile: Dockerfile
