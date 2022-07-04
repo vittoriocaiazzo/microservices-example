@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email-service-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: email-service-mongo
+  template:
+    metadata:
+      labels:
+        app: email-service-mongo
+    spec:
+      containers:
+        - name: email-service-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: email-service-mongo-svc
+spec:
+  selector:
+    app: email-service-mongo
+  ports:
+    - protocol: TCP
+      port: 27020
+      targetPort: 27017
+  type: LoadBalancer

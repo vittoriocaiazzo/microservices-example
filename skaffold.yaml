@@ -1,0 +1,56 @@
+apiVersion: skaffold/v2beta28
+kind: Config
+metadata:
+  name: microservices-example
+build:
+  local:
+    push: false
+  artifacts:
+    - image: thesleepydev/microservices-example-api-gateway
+      context: api-gateway
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: thesleepydev/microservices-example-authentication-service
+      context: authentication-service
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: thesleepydev/microservices-example-user-service
+      context: user-service
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: thesleepydev/microservices-example-email-service
+      context: email-service
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+deploy:
+  kubectl:
+    manifests:
+      - k8s/authentication-service-mongo.yaml
+      - k8s/user-service-mongo.yaml
+      - k8s/email-service-mongo.yaml
+
+      - k8s/ingress-class.yaml
+      - k8s/ingress.yaml
+
+      - k8s/mailhog.yaml
+
+      - k8s/api-gateway.yaml
+      - k8s/authentication-service.yaml
+      - k8s/user-service.yaml
+      - k8s/email-service.yaml

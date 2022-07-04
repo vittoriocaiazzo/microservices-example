@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication-service-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentication-service
+  template:
+    metadata:
+      labels:
+        app: authentication-service
+    spec:
+      containers:
+        - name: authentication-service
+          image: thesleepydev/microservices-example-authentication-service:latest
+          env:
+            - name: PORT
+              value: '3000'
+            - name: MONGO_URI
+              value: 'mongodb://authentication-service-mongo-svc:27018/users'
+            - name: TEMPORARY_TOKEN_EXPIRATION
+              value: '10m'
+            - name: LOGIN_TOKEN_EXPIRATION
+              value: '1d'
+            - name: TEMPORARY_COOKIE_MAX_AGE
+              value: '600'
+            - name: LOGIN_COOKIE_MAX_AGE
+              value: '86400'
+            - name: RABBITMQ_HOST
+              value: 'rabbitmq-svc'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentication-service-svc
+spec:
+  selector:
+    app: authentication-service
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

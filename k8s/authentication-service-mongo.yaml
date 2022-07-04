@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication-service-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentication-service-mongo
+  template:
+    metadata:
+      labels:
+        app: authentication-service-mongo
+    spec:
+      containers:
+        - name: authentication-service-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentication-service-mongo-svc
+spec:
+  selector:
+    app: authentication-service-mongo
+  ports:
+    - protocol: TCP
+      port: 27018
+      targetPort: 27017
+  type: LoadBalancer

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: thesleepydev/microservices-example-user-service:latest
+          env:
+            - name: PORT
+              value: '3000'
+            - name: MONGO_URI
+              value: 'mongodb://user-service-mongo-svc:27019/users'
+            - name: RABBITMQ_HOST
+              value: 'rabbitmq-svc'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service-svc
+spec:
+  selector:
+    app: user-service
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
